@@ -32,3 +32,13 @@ class NotificationsUtilsPlugin: FlutterPlugin, MethodCallHandler {
     channel.setMethodCallHandler(null)
   }
 }
+
+class NotificationsUtilsImpl : NotificationsUtils {
+  override fun getDeliveredNotifications(callback: (Result<List<DeliveredNotification>>) -> Unit) {
+
+  }
+
+  override fun removeDeliveredNotifications(ids: List<NotificationId>) {
+
+  }
+}

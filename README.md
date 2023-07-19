@@ -1,15 +1,39 @@
-# notifications_utils
+A Flutter package to get delivered notifications from the notification center on Android and iOS and cancel them.
 
-A new Flutter plugin project.
+# Only iOS api is implemented for now
 
-## Getting Started
+## Usage
+Get notifications:
+```dart 
+final List<DeliveredNotification?> notifications = await NotificationsUtils().getDeliveredNotifications();
+// `whereType` is used to take only not nullable notifications. 
+// That's because `pigeon` package doesn't support non-nullable generic types.
+for (final notification in notifications.whereType<DeliveredNotification>())
+  print(
+    "id: ${notification.id}\n"
+    "threadIdentifier: ${notification.threadIdentifier}\n"
+    "title: ${notification.title}\n"
+    "body: ${notification.body}\n"
+    "payload map: ${notification.payload}\n",
+  );
+```
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+Cancel notifications:
+```dart
+// On Android notification id is an integer and on iOS it's a string.
+// That's why NotificationId class is used.
+final NotificationId notificationId = NotificationId(
+  /*optional*/ androidId: 1,
+  /*optional*/ iosId: "someId",
+);
+NotificationsUtils().removeDeliveredNotifications([notificationId]);
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Why is it exists?
+Yeah, there is already great packages for notifications such as 
+[flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications) and 
+[awesome_notifications](https://pub.dev/packages/awesome_notifications).
 
+But
+- the `awesome_notifications` package doesn't support canceling delivered notifications at all.
+- the `flutter_local_notifications` package can only cancel notifications that were created by it.

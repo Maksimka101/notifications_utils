@@ -67,19 +67,9 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        floatingActionButton: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FloatingActionButton(
-              onPressed: _getNotifications,
-              child: const Icon(Icons.refresh),
-            ),
-            const SizedBox(height: 8),
-            FloatingActionButton(
-              onPressed: () => _showNotification(),
-              child: const Icon(Icons.add),
-            ),
-          ],
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _showNotification(),
+          child: const Icon(Icons.add),
         ),
         body: ListView(
           children: [
