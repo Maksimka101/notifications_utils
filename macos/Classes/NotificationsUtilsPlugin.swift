@@ -1,9 +1,10 @@
-import Flutter
-import UIKit
+import Cocoa
+import UserNotifications
+import FlutterMacOS
 
 public class NotificationsUtilsPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
-    NotificationsUtilsSetup.setUp(binaryMessenger: registrar.messenger(), api: NotificationsUtilsImpl())
+    NotificationsUtilsSetup.setUp(binaryMessenger: registrar.messenger, api: NotificationsUtilsImpl())
   }
 }
 
@@ -34,3 +35,4 @@ public class NotificationsUtilsImpl: NotificationsUtils {
         notificationCenter.removeDeliveredNotifications(withIdentifiers: ids.map {it in it.iosId!})
     }
 }
+

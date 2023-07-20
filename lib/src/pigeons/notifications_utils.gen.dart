@@ -40,8 +40,8 @@ class NotificationId {
 class DeliveredNotification {
   DeliveredNotification({
     required this.id,
-    required this.body,
     required this.title,
+    required this.body,
     required this.subtitle,
     required this.threadIdentifier,
     required this.payload,
@@ -49,9 +49,9 @@ class DeliveredNotification {
 
   NotificationId id;
 
-  String body;
-
   String title;
+
+  String body;
 
   String subtitle;
 
@@ -65,8 +65,8 @@ class DeliveredNotification {
   Object encode() {
     return <Object?>[
       id.encode(),
-      body,
       title,
+      body,
       subtitle,
       threadIdentifier,
       payload,
@@ -77,8 +77,8 @@ class DeliveredNotification {
     result as List<Object?>;
     return DeliveredNotification(
       id: NotificationId.decode(result[0]! as List<Object?>),
-      body: result[1]! as String,
-      title: result[2]! as String,
+      title: result[1]! as String,
+      body: result[2]! as String,
       subtitle: result[3]! as String,
       threadIdentifier: result[4]! as String,
       payload: result[5]! as Map<Object?, Object?>,
@@ -124,6 +124,7 @@ class NotificationsUtils {
 
   static const MessageCodec<Object?> codec = _NotificationsUtilsCodec();
 
+  /// Returns a list of notifications that are shown in the notification center.
   Future<List<DeliveredNotification?>> getDeliveredNotifications() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.NotificationsUtils.getDeliveredNotifications', codec,
@@ -151,6 +152,7 @@ class NotificationsUtils {
     }
   }
 
+  /// Removes the specified notifications from the notification center.
   Future<void> removeDeliveredNotifications(List<NotificationId?> arg_ids) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.NotificationsUtils.removeDeliveredNotifications', codec,

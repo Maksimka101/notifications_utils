@@ -74,8 +74,8 @@ data class NotificationId (
  */
 data class DeliveredNotification (
   val id: NotificationId,
-  val body: String,
   val title: String,
+  val body: String,
   val subtitle: String,
   val threadIdentifier: String,
   /**
@@ -90,19 +90,19 @@ data class DeliveredNotification (
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): DeliveredNotification {
       val id = NotificationId.fromList(list[0] as List<Any?>)
-      val body = list[1] as String
-      val title = list[2] as String
+      val title = list[1] as String
+      val body = list[2] as String
       val subtitle = list[3] as String
       val threadIdentifier = list[4] as String
       val payload = list[5] as Map<Any, Any?>
-      return DeliveredNotification(id, body, title, subtitle, threadIdentifier, payload)
+      return DeliveredNotification(id, title, body, subtitle, threadIdentifier, payload)
     }
   }
   fun toList(): List<Any?> {
     return listOf<Any?>(
       id.toList(),
-      body,
       title,
+      body,
       subtitle,
       threadIdentifier,
       payload,
@@ -144,7 +144,9 @@ private object NotificationsUtilsCodec : StandardMessageCodec() {
 
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface NotificationsUtils {
+  /** Returns a list of notifications that are shown in the notification center. */
   fun getDeliveredNotifications(callback: (Result<List<DeliveredNotification>>) -> Unit)
+  /** Removes the specified notifications from the notification center. */
   fun removeDeliveredNotifications(ids: List<NotificationId>)
 
   companion object {

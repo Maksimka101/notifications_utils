@@ -1,7 +1,7 @@
 name: notifications_utils
 description: \
-  A Flutter package to get delivered notifications from the notification center on Android and iOS and cancel them.
-version: 0.0.1
+  A Flutter package to get delivered notifications from the notification center on Android, iOS and MacOS and cancel them.
+version: 0.1.0
 repository: https://github.com/Maksimka101/notifications_utils
 
 environment:
@@ -25,4 +25,6 @@ flutter:
         package: com.zemlyanikin_maksim.notifications_utils
         pluginClass: NotificationsUtilsPlugin
       ios:
+        pluginClass: NotificationsUtilsPlugin
+      macos:
         pluginClass: NotificationsUtilsPlugin

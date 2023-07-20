@@ -1,11 +1,11 @@
-A Flutter package to get delivered notifications from the notification center on Android and iOS and cancel them.
+A Flutter package to get delivered notifications from the notification center on Android, iOS and MacOS and cancel them.
 
-# Only iOS api is implemented for now
+# Only iOS and MacOS api is implemented for now
 
 ## Usage
 Get notifications:
 ```dart 
-final List<DeliveredNotification?> notifications = await NotificationsUtils().getDeliveredNotifications();
+List<DeliveredNotification?> notifications = await NotificationsUtils().getDeliveredNotifications();
 // `whereType` is used to take only not nullable notifications. 
 // That's because `pigeon` package doesn't support non-nullable generic types.
 for (final notification in notifications.whereType<DeliveredNotification>())
@@ -18,7 +18,7 @@ for (final notification in notifications.whereType<DeliveredNotification>())
   );
 ```
 
-Cancel notifications:
+Cancel delivered notifications:
 ```dart
 // On Android notification id is an integer and on iOS it's a string.
 // That's why NotificationId class is used.

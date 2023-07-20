@@ -25,7 +25,12 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _notificationsPlugin.initialize(const InitializationSettings(iOS: DarwinInitializationSettings()));
+    _notificationsPlugin.initialize(
+      const InitializationSettings(
+        iOS: DarwinInitializationSettings(),
+        macOS: DarwinInitializationSettings(),
+      ),
+    );
     _getNotifications();
   }
 
@@ -45,15 +50,17 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _showNotification() async {
+    final darwinNotificationDetails = DarwinNotificationDetails(
+      subtitle: generateWordPairs().take(3).join(' '),
+      threadIdentifier: generateWordPairs().take(1).join(' '),
+    );
     await _notificationsPlugin.show(
       Random().nextInt(10000000),
       generateWordPairs().take(3).join(' '),
       generateWordPairs().take(3).join(' '),
       NotificationDetails(
-        iOS: DarwinNotificationDetails(
-          subtitle: generateWordPairs().take(3).join(' '),
-          threadIdentifier: generateWordPairs().take(1).join(' '),
-        ),
+        iOS: darwinNotificationDetails,
+        macOS: darwinNotificationDetails,
       ),
       payload: generateWordPairs().take(3).join(' '),
     );
