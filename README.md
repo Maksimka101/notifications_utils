@@ -1,6 +1,6 @@
 A Flutter package to get delivered notifications from the notification center on Android, iOS and MacOS and cancel them.
 
-# Only iOS and MacOS api is implemented for now
+`UNUserNotificationCenter` is used on iOS and MacOS and `NotificationManager` on Android.
 
 ## Usage
 Get notifications:

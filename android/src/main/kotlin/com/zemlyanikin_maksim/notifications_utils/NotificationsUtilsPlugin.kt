@@ -1,44 +1,53 @@
 package com.zemlyanikin_maksim.notifications_utils
 
+import android.app.NotificationManager
+import android.content.Context
 import androidx.annotation.NonNull
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 
-class NotificationsUtilsPlugin: FlutterPlugin, MethodCallHandler {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
-  private lateinit var channel : MethodChannel
-
+class NotificationsUtilsPlugin: FlutterPlugin {
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "test")
-    channel.setMethodCallHandler(this)
-  }
-
-  override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    if (call.method == "getPlatformVersion") {
-      result.success("Android ${android.os.Build.VERSION.RELEASE}")
-    } else {
-      result.notImplemented()
-    }
+    val notificationManager = flutterPluginBinding.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    val notificationsUtils = NotificationsUtilsImpl(notificationManager)
+    val binaryMessenger = flutterPluginBinding.binaryMessenger
+    NotificationsUtils.setUp(binaryMessenger, notificationsUtils)
   }
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-    channel.setMethodCallHandler(null)
   }
 }
 
-class NotificationsUtilsImpl : NotificationsUtils {
+class NotificationsUtilsImpl(private val notificationManager: NotificationManager) : NotificationsUtils {
   override fun getDeliveredNotifications(callback: (Result<List<DeliveredNotification>>) -> Unit) {
-
+    val deliveredNotifications = notificationManager.activeNotifications.map {
+      val extras = it.notification.extras
+      val payload = mutableMapOf<Any, Any?>()
+      for (key in extras.keySet()) {
+        payload[key] = extras.getString(key)
+      }
+      DeliveredNotification(
+        id = NotificationId(androidId = it.id.toLong()),
+        title = payload["android.title"]?.toString() ?: "",
+        subtitle = "",
+        body = payload["android.text"]?.toString() ?: "",
+        payload = payload,
+        threadIdentifier = "",
+      )
+    }
+    callback(Result.success(deliveredNotifications));
   }
 
   override fun removeDeliveredNotifications(ids: List<NotificationId>) {
-
+    for (id in ids) {
+      val androidId = id.androidId
+      if (androidId != null) {
+        notificationManager.cancel(androidId.toInt())
+      }
+    }
   }
 }
+

@@ -23,6 +23,7 @@ class NotificationId {
 /// Notification payload class.
 ///
 /// `UNNotificationContent` on iOS.
+/// `Notification` on Android.
 class DeliveredNotification {
   DeliveredNotification({
     required this.id,
@@ -33,19 +34,31 @@ class DeliveredNotification {
     required this.payload,
   });
 
-  // `UNNotificationContent.identifier` on iOS.
+  // `UNNotificationContent.identifier` on iOS and MacOS.
+  // `StatusBarNotification.id` on Android.
   final NotificationId id;
+
+  // `UNNotificationContent.title` on iOS and MacOS.
+  // `Notification.extras['android.title']` on Android.
   final String title;
+
+  // `UNNotificationContent.body` on iOS and MacOS.
+  // `Notification.extras['android.text']` on Android.
   final String body;
+
+  // `UNNotificationContent.subtitle` on iOS and MacOS.
+  // Empty on Android.
   final String subtitle;
 
-  // `threadIdentifier` on iOS.
+  // `threadIdentifier` on iOS and MacOS.
+  // Empty on Android.
   final String threadIdentifier;
 
   /// Notification payload.
   ///
   /// Usually a map of strings to some primitive types.
   // `userInfo` on iOS.
+  // `Notification.extras` on Android.
   final Map payload;
 }
 

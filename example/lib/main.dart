@@ -25,13 +25,22 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _notificationsPlugin.initialize(
+
+    _initAndGet();
+  }
+
+  Future<void> _initAndGet() async {
+    await _notificationsPlugin.initialize(
       const InitializationSettings(
         iOS: DarwinInitializationSettings(),
         macOS: DarwinInitializationSettings(),
+        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
       ),
     );
-    _getNotifications();
+    _notificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestPermission();
+    await _getNotifications();
   }
 
   Future<void> _getNotifications() async {
@@ -59,6 +68,7 @@ class _MyAppState extends State<MyApp> {
       generateWordPairs().take(3).join(' '),
       generateWordPairs().take(3).join(' '),
       NotificationDetails(
+        android: const AndroidNotificationDetails('channel id', 'channel name'),
         iOS: darwinNotificationDetails,
         macOS: darwinNotificationDetails,
       ),
@@ -72,11 +82,21 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Notifications utils example'),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _showNotification(),
-          child: const Icon(Icons.add),
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FloatingActionButton(
+              onPressed: () => _showNotification(),
+              child: const Icon(Icons.add),
+            ),
+            const SizedBox(height: 10),
+            FloatingActionButton(
+              onPressed: () => _getNotifications(),
+              child: const Icon(Icons.refresh),
+            ),
+          ],
         ),
         body: ListView(
           children: [
