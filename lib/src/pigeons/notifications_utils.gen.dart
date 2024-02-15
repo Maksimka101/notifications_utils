@@ -12,16 +12,20 @@ class NotificationId {
   NotificationId({
     this.androidId,
     this.iosId,
+    this.androidTag,
   });
 
   int? androidId;
 
   String? iosId;
 
+  String? androidTag;
+
   Object encode() {
     return <Object?>[
       androidId,
       iosId,
+      androidTag,
     ];
   }
 
@@ -30,6 +34,7 @@ class NotificationId {
     return NotificationId(
       androidId: result[0] as int?,
       iosId: result[1] as String?,
+      androidTag: result[2] as String?,
     );
   }
 }
@@ -46,6 +51,7 @@ class DeliveredNotification {
     required this.subtitle,
     required this.threadIdentifier,
     required this.payload,
+    required this.androidTag,
   });
 
   NotificationId id;
@@ -63,6 +69,8 @@ class DeliveredNotification {
   /// Usually a map of strings to some primitive types.
   Map<Object?, Object?> payload;
 
+  String androidTag;
+
   Object encode() {
     return <Object?>[
       id.encode(),
@@ -71,6 +79,7 @@ class DeliveredNotification {
       subtitle,
       threadIdentifier,
       payload,
+      androidTag,
     ];
   }
 
@@ -83,6 +92,7 @@ class DeliveredNotification {
       subtitle: result[3]! as String,
       threadIdentifier: result[4]! as String,
       payload: result[5]! as Map<Object?, Object?>,
+      androidTag: result[6]! as String,
     );
   }
 }

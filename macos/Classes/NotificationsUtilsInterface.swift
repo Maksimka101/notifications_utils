@@ -38,20 +38,24 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
 struct NotificationId {
   var androidId: Int64? = nil
   var iosId: String? = nil
+  var androidTag: String? = nil
 
   static func fromList(_ list: [Any?]) -> NotificationId? {
     let androidId: Int64? = list[0] is NSNull ? nil : (list[0] is Int64? ? list[0] as! Int64? : Int64(list[0] as! Int32))
     let iosId: String? = nilOrValue(list[1])
+    let androidTag: String? = nilOrValue(list[2])
 
     return NotificationId(
       androidId: androidId,
-      iosId: iosId
+      iosId: iosId,
+      androidTag: androidTag
     )
   }
   func toList() -> [Any?] {
     return [
       androidId,
       iosId,
+      androidTag,
     ]
   }
 }
@@ -72,6 +76,7 @@ struct DeliveredNotification {
   ///
   /// Usually a map of strings to some primitive types.
   var payload: [AnyHashable: Any?]
+  var androidTag: String
 
   static func fromList(_ list: [Any?]) -> DeliveredNotification? {
     let id = NotificationId.fromList(list[0] as! [Any?])!
@@ -80,6 +85,7 @@ struct DeliveredNotification {
     let subtitle = list[3] as! String
     let threadIdentifier = list[4] as! String
     let payload = list[5] as! [AnyHashable: Any?]
+    let androidTag = list[6] as! String
 
     return DeliveredNotification(
       id: id,
@@ -87,7 +93,8 @@ struct DeliveredNotification {
       body: body,
       subtitle: subtitle,
       threadIdentifier: threadIdentifier,
-      payload: payload
+      payload: payload,
+      androidTag: androidTag
     )
   }
   func toList() -> [Any?] {
@@ -98,6 +105,7 @@ struct DeliveredNotification {
       subtitle,
       threadIdentifier,
       payload,
+      androidTag,
     ]
   }
 }

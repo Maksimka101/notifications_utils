@@ -46,7 +46,8 @@ class FlutterError (
 /** Generated class from Pigeon that represents data sent in messages. */
 data class NotificationId (
   val androidId: Long? = null,
-  val iosId: String? = null
+  val iosId: String? = null,
+  val androidTag: String? = null
 
 ) {
   companion object {
@@ -54,13 +55,15 @@ data class NotificationId (
     fun fromList(list: List<Any?>): NotificationId {
       val androidId = list[0].let { if (it is Int) it.toLong() else it as Long? }
       val iosId = list[1] as String?
-      return NotificationId(androidId, iosId)
+      val androidTag = list[2] as String?
+      return NotificationId(androidId, iosId, androidTag)
     }
   }
   fun toList(): List<Any?> {
     return listOf<Any?>(
       androidId,
       iosId,
+      androidTag,
     )
   }
 }
@@ -84,7 +87,8 @@ data class DeliveredNotification (
    *
    * Usually a map of strings to some primitive types.
    */
-  val payload: Map<Any, Any?>
+  val payload: Map<Any, Any?>,
+  val androidTag: String
 
 ) {
   companion object {
@@ -96,7 +100,8 @@ data class DeliveredNotification (
       val subtitle = list[3] as String
       val threadIdentifier = list[4] as String
       val payload = list[5] as Map<Any, Any?>
-      return DeliveredNotification(id, title, body, subtitle, threadIdentifier, payload)
+      val androidTag = list[6] as String
+      return DeliveredNotification(id, title, body, subtitle, threadIdentifier, payload, androidTag)
     }
   }
   fun toList(): List<Any?> {
@@ -107,6 +112,7 @@ data class DeliveredNotification (
       subtitle,
       threadIdentifier,
       payload,
+      androidTag,
     )
   }
 }

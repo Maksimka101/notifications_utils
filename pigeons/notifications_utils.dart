@@ -14,10 +14,12 @@ class NotificationId {
   NotificationId({
     this.androidId,
     this.iosId,
+    this.androidTag,
   });
 
   final int? androidId;
   final String? iosId;
+  final String? androidTag;
 }
 
 /// Notification payload class.
@@ -32,6 +34,7 @@ class DeliveredNotification {
     required this.body,
     required this.threadIdentifier,
     required this.payload,
+    required this.androidTag,
   });
 
   // `UNNotificationContent.identifier` on iOS and MacOS.
@@ -60,6 +63,9 @@ class DeliveredNotification {
   // `userInfo` on iOS.
   // `Notification.extras` on Android.
   final Map payload;
+
+  // `Notification.tag` on Android.
+  final String androidTag;
 }
 
 @HostApi()
