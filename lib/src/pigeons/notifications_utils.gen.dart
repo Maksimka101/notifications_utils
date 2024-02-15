@@ -51,7 +51,7 @@ class DeliveredNotification {
     required this.subtitle,
     required this.threadIdentifier,
     required this.payload,
-    required this.androidTag,
+    this.androidTag,
   });
 
   NotificationId id;
@@ -69,7 +69,7 @@ class DeliveredNotification {
   /// Usually a map of strings to some primitive types.
   Map<Object?, Object?> payload;
 
-  String androidTag;
+  String? androidTag;
 
   Object encode() {
     return <Object?>[
@@ -92,7 +92,7 @@ class DeliveredNotification {
       subtitle: result[3]! as String,
       threadIdentifier: result[4]! as String,
       payload: result[5]! as Map<Object?, Object?>,
-      androidTag: result[6]! as String,
+      androidTag: result[6] as String?,
     );
   }
 }

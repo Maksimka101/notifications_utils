@@ -34,7 +34,7 @@ class DeliveredNotification {
     required this.body,
     required this.threadIdentifier,
     required this.payload,
-    required this.androidTag,
+    this.androidTag,
   });
 
   // `UNNotificationContent.identifier` on iOS and MacOS.
@@ -65,7 +65,7 @@ class DeliveredNotification {
   final Map payload;
 
   // `Notification.tag` on Android.
-  final String androidTag;
+  final String? androidTag;
 }
 
 @HostApi()

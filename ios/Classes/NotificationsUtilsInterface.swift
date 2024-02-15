@@ -76,7 +76,7 @@ struct DeliveredNotification {
   ///
   /// Usually a map of strings to some primitive types.
   var payload: [AnyHashable: Any?]
-  var androidTag: String
+  var androidTag: String? = nil
 
   static func fromList(_ list: [Any?]) -> DeliveredNotification? {
     let id = NotificationId.fromList(list[0] as! [Any?])!
@@ -85,7 +85,7 @@ struct DeliveredNotification {
     let subtitle = list[3] as! String
     let threadIdentifier = list[4] as! String
     let payload = list[5] as! [AnyHashable: Any?]
-    let androidTag = list[6] as! String
+    let androidTag: String? = nilOrValue(list[6])
 
     return DeliveredNotification(
       id: id,
