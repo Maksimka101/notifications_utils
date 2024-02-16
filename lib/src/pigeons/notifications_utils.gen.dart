@@ -69,6 +69,7 @@ class DeliveredNotification {
   /// Usually a map of strings to some primitive types.
   Map<Object?, Object?> payload;
 
+  /// Equals to the [id.androidTag].
   String? androidTag;
 
   Object encode() {
@@ -115,9 +116,9 @@ class _NotificationsUtilsCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128: 
+      case 128:
         return DeliveredNotification.decode(readValue(buffer)!);
-      case 129: 
+      case 129:
         return NotificationId.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -138,10 +139,10 @@ class NotificationsUtils {
   /// Returns a list of notifications that are shown in the notification center.
   Future<List<DeliveredNotification?>> getDeliveredNotifications() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.notifications_utils.NotificationsUtils.getDeliveredNotifications', codec,
+        'dev.flutter.pigeon.notifications_utils.NotificationsUtils.getDeliveredNotifications',
+        codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -164,9 +165,11 @@ class NotificationsUtils {
   }
 
   /// Removes the specified notifications from the notification center.
-  Future<void> removeDeliveredNotifications(List<NotificationId?> arg_ids) async {
+  Future<void> removeDeliveredNotifications(
+      List<NotificationId?> arg_ids) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.notifications_utils.NotificationsUtils.removeDeliveredNotifications', codec,
+        'dev.flutter.pigeon.notifications_utils.NotificationsUtils.removeDeliveredNotifications',
+        codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_ids]) as List<Object?>?;

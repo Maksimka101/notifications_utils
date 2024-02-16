@@ -15,6 +15,7 @@ for (final notification in notifications.whereType<DeliveredNotification>())
     "title: ${notification.title}\n"
     "body: ${notification.body}\n"
     "payload map: ${notification.payload}\n",
+    "androidTag: ${notification.androidTag}\n",
   );
 ```
 
@@ -25,6 +26,7 @@ Cancel delivered notifications:
 final NotificationId notificationId = NotificationId(
   /*optional*/ androidId: 1,
   /*optional*/ iosId: "someId",
+  /*optional*/ androidTag: "someTag",
 );
 NotificationsUtils().removeDeliveredNotifications([notificationId]);
 ```

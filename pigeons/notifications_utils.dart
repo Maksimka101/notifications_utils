@@ -4,8 +4,10 @@ import 'package:pigeon/pigeon.dart';
 @ConfigurePigeon(PigeonOptions(
   dartOut: 'lib/src/pigeons/notifications_utils.gen.dart',
   swiftOut: 'ios/Classes/NotificationsUtilsInterface.swift',
-  kotlinOut: 'android/src/main/kotlin/com/zemlyanikin_maksim/notifications_utils/NotificationsUtilsInterface.kt',
-  kotlinOptions: KotlinOptions(package: 'com.zemlyanikin_maksim.notifications_utils'),
+  kotlinOut:
+      'android/src/main/kotlin/com/zemlyanikin_maksim/notifications_utils/NotificationsUtilsInterface.kt',
+  kotlinOptions:
+      KotlinOptions(package: 'com.zemlyanikin_maksim.notifications_utils'),
 ))
 // #enddocregion config
 

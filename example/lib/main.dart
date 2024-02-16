@@ -38,15 +38,18 @@ class _MyAppState extends State<MyApp> {
       ),
     );
     _notificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.requestPermission();
     await _getNotifications();
   }
 
   Future<void> _getNotifications() async {
     try {
-      final notifications = await NotificationsUtils().getDeliveredNotifications();
-      _notifications = notifications.whereType<DeliveredNotification>().toList();
+      final notifications =
+          await NotificationsUtils().getDeliveredNotifications();
+      _notifications =
+          notifications.whereType<DeliveredNotification>().toList();
       if (mounted) setState(() {});
     } catch (e, st) {
       debugPrintStack(stackTrace: st, label: e.toString());
@@ -109,8 +112,10 @@ class _MyAppState extends State<MyApp> {
                 onTap: () => _removeNotification(notification.id),
                 leading: Text('Id:\n${notification.id.id}'),
                 trailing: Text('Thread id:\n${notification.threadIdentifier}'),
-                title: Text('Title: ${notification.title}. Subtitle: ${notification.subtitle}'),
-                subtitle: Text('Body: ${notification.body}\nPayload: ${notification.payload}'),
+                title: Text(
+                    'Title: ${notification.title}. Subtitle: ${notification.subtitle}'),
+                subtitle: Text(
+                    'Body: ${notification.body}\nPayload: ${notification.payload}'),
               ),
           ],
         ),
