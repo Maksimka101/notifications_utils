@@ -30,12 +30,13 @@ class NotificationsUtilsImpl(private val notificationManager: NotificationManage
         payload[key] = extras.getString(key)
       }
       DeliveredNotification(
-        id = NotificationId(androidId = it.id.toLong()),
+        id = NotificationId(androidId = it.id.toLong(), androidTag = it.tag),
         title = payload["android.title"]?.toString() ?: "",
         subtitle = "",
         body = payload["android.text"]?.toString() ?: "",
         payload = payload,
         threadIdentifier = "",
+        androidTag = it.tag,
       )
     }
     callback(Result.success(deliveredNotifications));
@@ -45,7 +46,7 @@ class NotificationsUtilsImpl(private val notificationManager: NotificationManage
     for (id in ids) {
       val androidId = id.androidId
       if (androidId != null) {
-        notificationManager.cancel(androidId.toInt())
+        notificationManager.cancel(id.androidTag, androidId.toInt())
       }
     }
   }
