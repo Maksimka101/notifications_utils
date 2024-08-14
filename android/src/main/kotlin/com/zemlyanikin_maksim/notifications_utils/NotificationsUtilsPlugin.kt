@@ -27,7 +27,8 @@ class NotificationsUtilsImpl(private val notificationManager: NotificationManage
       val extras = it.notification.extras
       val payload = mutableMapOf<Any, Any?>()
       for (key in extras.keySet()) {
-        payload[key] = extras.getString(key)
+        val value = extras.get(key)
+        payload[key] = value.toString()
       }
       DeliveredNotification(
         id = NotificationId(androidId = it.id.toLong(), androidTag = it.tag),
